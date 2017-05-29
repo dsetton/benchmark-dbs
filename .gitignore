@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/.name
+.idea/misc.xml
+.idea/workspace.xml
+src/main/resources/
+src/test/
+target/
+LOAN-big.csv
+LOAN-bigx2.csv
+LOAN-huge.csv
+LOAN-original.csv
+LOAN.csv
+LOAN2.csv
+.vertx/
+src/main/conf/conf-1.json

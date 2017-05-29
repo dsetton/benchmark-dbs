@@ -1,0 +1,22 @@
+{
+  "filename" : "file1.csv",
+  "step2Field" : "",
+  "step2Value" : "",
+  "step3Field" : "",
+  "step3Values" : [""],
+  "step3DisplayFields" : [""],
+  "step4Field" : "",
+  "step4LowerBound" : "",
+  "step4UpperBound" : "",
+  "step5LowerBound" : "",
+  "step5UpperBound" : "",
+  "step5QueryField" : "",
+  "step5Field" : "",
+  "step6GroupField" : "",
+  "step6sumField1":"",
+  "step6sumField2":"",
+  "step7QueryField":"",
+  "step7ValueQueryField":"",
+  "step7Field2":"",
+  "step7LowerBoundField2":0
+}
