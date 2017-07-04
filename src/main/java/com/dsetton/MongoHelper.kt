@@ -66,7 +66,7 @@ object MongoHelper {
     }
 
     /**
-     * Step 2 - leitura com apresentação de todas as colunas para o CPF = 211.211.224-21
+     * Step 2 - leitura com apresentação de todas as colunas para um campo específico
      * */
     fun listFilteredByField(client:MongoClient, collection:String, field:String, value:String, future:Future<Any>){
 
@@ -77,7 +77,6 @@ object MongoHelper {
         client.find(collection, query, {
 
             if (it.succeeded()) {
-//                future.complete("Mongo list filtered: read ${it.result().size} object(s) where field $field was $value")
                 future.complete("Mongo ASYNC Step2: read ${it.result().size} object(s)")
             } else {
                 future.fail(it.cause().message)
@@ -88,8 +87,7 @@ object MongoHelper {
     }
 
     /**
-     * 3 - leitura com apresentação das colunas A, B e E para os
-     * CPFs IN (122.432.104-14,324.431.124-02,443.112.312-00,144.323.134-11,314.120.111-20)
+     * 3 - leitura com apresentação das colunas A, B e E para um campo com vários valores (IN)
      */
     fun listFilteredByFieldWithSeveralValues(client:MongoClient, collection:String, queryField:String, values:JsonArray, displayFields:JsonArray,  future:Future<Any>){
 
@@ -107,8 +105,6 @@ object MongoHelper {
         client.findWithOptions(collection, query, FindOptions(displayFieldObj), {
 
             if (it.succeeded()) {
-//                future.complete("Mongo list filtered: read ${it.result().size} object(s) where queryField $queryField was ${values.joinToString(",","[", "]")}")
-//                println((it.result()[0] as JsonObject).get("Nome Cliente"))
                 future.complete("Mongo ASYNC Step3: read ${it.result().size} object(s) ")
             } else {
                 future.fail(it.cause().message)
@@ -119,7 +115,7 @@ object MongoHelper {
     }
 
     /**
-     * Step 4 - leitura com apresentação de todas as colunas para os contratos criados em 2015 ou seja Data do Contrato entre 01/01/2015 e 31/12/2015
+     * Step 4 - leitura com apresentação de todas as colunas, filtradas por campo com range de valores (between ou gte && lte)
      * */
     fun listFilteredByFieldWithBetween(client:MongoClient, collection:String, field:String, upperBound:Any, lowerBound:Any, future:Future<Any>){
 
@@ -142,7 +138,7 @@ object MongoHelper {
     }
 
     /**
-     * Step 5 - leitura com apresentação TOTAL ( Principal ) dos contratos criados em 2016 ou seja Data do Contrato entre 01/01/2016 e 31/12/2016.
+     * Step 5 - leitura com apresentação TOTAL/SUM ( campo ) dos dados dentro de um range
      * */
     fun listSumFieldWithBetween(client:MongoClient, collection:String, queryField:String, sumField:String, upperBound:Any, lowerBound:Any, future:Future<Any>){
 
@@ -170,7 +166,6 @@ object MongoHelper {
 
         client.runCommand("aggregate", command, {
             if (it.succeeded()) {
-//                future.complete("Mongo SUM($sumField): value ${it.result().getJsonArray("result").get<JsonObject>(0).getDouble("total")}")
                 future.complete("Mongo step5 done")
             } else {
                 it.cause().printStackTrace()
@@ -181,7 +176,7 @@ object MongoHelper {
     }
 
     /**
-     * 6 - leitura com apresentação TOTAL ( Principal ) e TOTAL ( Interest ) agrupados por ANO.
+     * 6 - leitura com apresentação TOTAL ( campo 1 ) e TOTAL ( campo 2 ) agrupados por campo 3.
      * */
     fun listSumFieldsWithGroupByThirdField(client:MongoClient, collection:String, groupField:String, sumField1:String, sumField2:String, future:Future<Any>){
 
@@ -202,13 +197,6 @@ object MongoHelper {
 
         client.runCommand("aggregate", command, {
             if (it.succeeded()) {
-//                val year1 = it.result().getJsonArray("result").get<JsonObject>(0).getString("_id")
-//                val year2 = it.result().getJsonArray("result").get<JsonObject>(1).getString("_id")
-//                val total1y1 = it.result().getJsonArray("result").get<JsonObject>(0).getDouble("total_$sumField1")
-//                val total2y1 = it.result().getJsonArray("result").get<JsonObject>(0).getDouble("total_$sumField2")
-//                val total1y2 = it.result().getJsonArray("result").get<JsonObject>(0).getDouble("total_$sumField1")
-//                val total2y2 = it.result().getJsonArray("result").get<JsonObject>(0).getDouble("total_$sumField2")
-//                future.complete("Mongo step6 done: $year1 (total_$sumField1 = $total1y1, total_$sumField2 = $total2y1) ; $year2 (total_$sumField1 = $total1y2, total_$sumField2 = $total2y2)" )
                 future.complete("Mongo step6 done")
             } else {
                 it.cause().printStackTrace()
@@ -219,7 +207,7 @@ object MongoHelper {
     }
 
     /**
-     * Step 7 - leitura com apresentação de todas colunas para os contratos de 2016 com principal maior que 15000.
+     * Step 7 - leitura com apresentação de todas colunas para os contratos de um range de campo 1 e com campo 2 maior que valor especificado.
      * */
     fun step7(client:MongoClient, collection:String, queryField:String, valueQueryField:String, field2:String, lowerBoundField2:Any, future:Future<Any>){
 
@@ -233,7 +221,6 @@ object MongoHelper {
         client.find(collection, query, {
 
             if (it.succeeded()) {
-//                future.complete("Mongo step 7: read ${it.result().size} object(s)")
                 future.complete("Mongo step 7 done")
             } else {
                 future.fail(it.cause().message)
